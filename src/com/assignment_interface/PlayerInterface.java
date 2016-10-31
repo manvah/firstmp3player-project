@@ -1,7 +1,7 @@
 package com.assignment_interface;
 
 public interface PlayerInterface {
-	public void Open();
+	public String Open();
 	
 	public void Play();
 		

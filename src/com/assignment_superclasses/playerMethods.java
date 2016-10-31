@@ -1,58 +1,42 @@
 package com.assignment_superclasses;
 import java.awt.FileDialog;
 import java.io.File;
-import java.io.FilenameFilter;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
+
+import javax.swing.JFileChooser;
 
 import com.assignment_interface.PlayerInterface;
 import jaco.mp3.player.MP3Player;
 
 public class playerMethods implements PlayerInterface {
-	private MP3Player Mp3Player = new MP3Player();
+	private MP3Player Mp3Player;
 
 	public MP3Player getMp3Player() {
 		return Mp3Player;
 	}
 
-	public void setMp3Player(MP3Player mp3Player) {
-		Mp3Player = mp3Player;
+	public void setMp3Player() {
+		this.Mp3Player = new MP3Player();
 	}
 
 	@Override
-	public void Open() {
-		Mp3Player.removeAll();
-		JFrame frmMyMusicPlayer = new JFrame();
-		JLabel lblNewLabel_1 = new JLabel("");
-		FileDialog fd = new FileDialog(frmMyMusicPlayer, "Choose a file", FileDialog.LOAD);
-		fd.setDirectory("");
-		fd.setFilenameFilter(new FilenameFilter() {
-			@Override
-			public boolean accept(File dir, String name) {
-				return name.endsWith(".mp3");
-			 }
-		});
-		fd.setVisible(true);
-		File filename[] = fd.getFiles();
-		
-		if (filename == null)
-		  System.out.println("You cancelled the choice");
-		else
-		  System.out.println("You chose " + filename[0].getName());
-		
-		for (int i=0 ; i < filename.length ; i++ ) {
+	public String Open() {
+		String filename = "";
+		final JFileChooser fileChooser = new JFileChooser();
+		int returnVal = fileChooser.showOpenDialog(null);
+		if (returnVal == JFileChooser.APPROVE_OPTION) {
+			File file = fileChooser.getSelectedFile();
+			System.out.println(file.getAbsolutePath());
+			this.Mp3Player.addToPlayList(file);
+			filename = file.getName();
 			
-			Mp3Player.addToPlayList(filename[i]);
 		}
-	   
-		lblNewLabel_1.setText(filename[0].getName());
-		
-	}
+		return filename;
 
+	}
+		
 	@Override
 	public void Play() {
-		Mp3Player.play();
-		
+		this.Mp3Player.play();
 	}
 
 	@Override

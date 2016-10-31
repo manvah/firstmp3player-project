@@ -5,7 +5,7 @@ import com.assignment_ViewClass.viewClass;
 public class Main {
 
 	public static void main(String[] args) {
-		viewClass vc = new viewClass();
+		viewClass window = new viewClass();
 
 	}
 
